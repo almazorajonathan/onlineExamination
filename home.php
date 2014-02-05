@@ -1,13 +1,26 @@
 <link rel='stylesheet' href='assets/css/global.css' type='text/css'>
 <link rel='stylesheet' href='assets/css/style.css' type'text/css'>
 
-<?php 
-	require_once('config.php');
-	require_once('examDAO.php');
+<?php
+	DEFINE('QUESTION_NUMBER' , 10);
 
-	$question = examDAO::getQuestion(1);
-	$choices = examDAO::getChoices(1);
-?>	
+	include_once('config.php');
+	include_once('examDAO.php');
+
+	$question_num = (isset($_POST['question_num'])) ? $_POST['question_num'] + 1 : 1;
+	$answer = (isset($_POST['answer'])) ? $_POST['answer'] : '';
+	$answers = (isset($_POST['answers'])) ? $_POST['answers'] : '';
+	$answer .= $answers; 
+
+	if ($question_num > 10) {
+		$_SESSION['answer'] = $answer;
+
+		header('location: Result.php');
+	}
+
+	$q = examDAO::getQuestion($question_num);
+	$question = $q['question'];
+ ?>
 
 <body style='background-color:D3D8E8'>
 	<div class='navbar navbar-fixed-top'>
@@ -31,13 +44,6 @@
 
 
 	<div class='container' style='margin-top:100px'>
-		<div id='takeExam'>
-			<h1>Are you READY to take your Exam</h1>
-			<h3>This is good for 30 Minutes</h3>
-			<button id='yesExam' class='btn btn-success'>Take my Exam NOW</button>
-			<button id='noExam' class='btn'>Not Now</button>
-		</div>
-
 
 	<!--test Proper code-->
 		<div hidden id='testExam'>
@@ -47,23 +53,22 @@
 				<div class='row'>
 					<div class='well' id='well' style='margin-top:50px'>
 						<div hidden id='ques'>
-							<font size='6'><b>Question #</b></font><font size='6' id='quesNum' style='font-weight:bold'>1</font>
-							<div style='margin-top:50px'>
-								<h2 id='Question'><?= $question;?></h2>
-							</div>
+							<form method='POST' action='<?=$_SERVER['PHP_SELF'];?>'>
+								<input type='hidden' name='question_num' value='<?= $question_num?>'>
+								<input type='hidden' name='answer' value='<?= $answer?>'>
+								<h1><?= $question?></h1>
 
-							<div style='margin:50 0 0 50'>
-								<div hidden id='choices'>
-									<div id='choice1'><input type='radio' id='radio1' name='radio' value='a'><font size='3'><b><?= $choices['choice1']; ?></b></font></div>
-									<div id='choice2'><input type='radio' id='radio2' name='radio' value='b'><font size='3'><b><?= $choices['choice2']; ?></b></font></div>
-									<div id='choice3'><input type='radio' id='radio3' name='radio' value='c'><font size='3'><b><?= $choices['choice3']; ?></b></font></div>
-									<div id='choice4'><input type='radio' id='radio4' name='radio' value='d'><font size='3'><b><?= $choices['choide4']; ?></b></font></div>
+								<div style='margin:50 0 0 50'>
+									<input type='radio' name='answers' value='a' id='radio1' style='height:15px;width:15px'><font style='font-size:20px'><b><?= $q['choice1']; ?></b></font><br>
+									<input type='radio' name='answers' value='b' id='radio2' style='height:15px;width:15px'><font style='font-size:20px'><b><?= $q['choice2']; ?></b></font><br>
+									<input type='radio' name='answers' value='c' id='radio3' style='height:15px;width:15px'><font style='font-size:20px'><b><?= $q['choice3']; ?></b></font><br>
+									<input type='radio' name='answers' value='d' id='radio4' style='height:15px;width:15px'><font style='font-size:20px'><b><?= $q['choide4']; ?></b></font><br>
 								</div>
-							</div>
 
-							<div>
-								<button class='btn btn-primary nextPage pull-right' id='nextPage'>Next Page</button>
-							</div>
+								<div>
+									<button type='submit' name='next' class='btn btn-primary nextPage pull-right' id='NEXTPAGE'>Submit</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -71,34 +76,6 @@
 		</div>
 
 	<!-- END test Proper code-->
-
-	<!--result-->
-		<div hidden id='testresult'>
-			<div class='container'>
-				<div class='row'>
-					<div class='well'>
-						<h1>Test Result</h1><br><br>
-						<font size='4'><b>Your Score</b></font> <font id='score' size='4'><b></b></font>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	<!--end result-->
-
-	<!--exit code-->
-
-		<div hidden id='exitTest'>
-			<div class='container'>
-				<div class='row'>
-						<h1 color='red'>Are you sure. You want to EXIT</h1>
-						<button id='exitYes' class='btn btn-primary'>Yes</button>
-						<button id='exitNo' class='btn'>No</button>
-				</div>
-			</div>
-		</div>
-
-	<!--end exit code-->
 
 	</div>
 </body>

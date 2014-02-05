@@ -74,5 +74,6 @@
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/admin.min.js"></script>
 <script src='assets/js/validate.js'></script>
+<script src='assets/js/design.js'></script>
 </body>
 </html>
