@@ -53,3 +53,25 @@
     font-weight: bold;
     margin-top:80px;
 }
+
+#img {
+    opacity:0.4;
+    filter:alpha(opacity=40); /* For IE8 and earlier */
+}
+
+#img:hover {
+    opacity:1.0;
+    filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+
+#well2 {
+    opacity:0.7;
+    filter:alpha(opacity=40);
+    color:black;
+}
+
+#well2:hover {
+    opacity:1.0;
+    filter:alpha(opacity=100); /* For IE8 and earlier */
+    border:1px solid;
+}

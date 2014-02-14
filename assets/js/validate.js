@@ -80,10 +80,10 @@ function check_fname() {
 
 	function authenticator(){
         if(check_fname() && check_lname() && check_email() && check_password() && validate_password()){
-            alert('Success.');
+            // alert('Success.');
             return true;
         }else{
-            alert('Complete the following first.');
+            // alert('Complete the following first.');
             return false;
         }
     }
